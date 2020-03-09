@@ -6,6 +6,8 @@ elixir libs: [HTTPoison](https://github.com/edgurgel/httpoison/), [Jason](https:
 
 very alpha - only basic account info, buy, sell, delete orders.
 
+uses [v2 alpaca markets api](https://docs.alpaca.markets/api-documentation/api-v2/)
+
 ## config
 
 ```bash
