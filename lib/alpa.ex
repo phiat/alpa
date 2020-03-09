@@ -87,6 +87,9 @@ defmodule Alpa do
     end
   end
 
+  @doc """
+  auth headers for api
+  """
   def headers do
     [
       "APCA-API-KEY-ID": Application.get_env(:alpa, :key),
