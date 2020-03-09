@@ -1,6 +1,8 @@
 defmodule Alpa do
+  @moduledoc """
+  api wrapper for alpaca.markets
+  """
   require Jason
-
 
   @doc """
   gets account info
@@ -73,15 +75,19 @@ defmodule Alpa do
   defp handle_response(response) do
     case response do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        Jason.decode! body
-      {:ok, %HTTPoison.Response{body: body}} ->
-        Jason.decode! body
+        {:ok, Jason.decode! body}
+      {:ok, %HTTPoison.Response{status_code: 204}} ->   # delete success
+        {:ok, :success}
+      {:ok, %HTTPoison.Response{status_code: 207}} ->   # multipart success
+        {:ok, :success}
+      {:ok, %HTTPoison.Response{status_code: 403, body: body}} ->
+        {:ok, Jason.decode!(body)}
       {:error, reason} ->
-        reason
+        {:error, reason}
     end
   end
 
-  defp headers do
+  def headers do
     [
       "APCA-API-KEY-ID": Application.get_env(:alpa, :key),
       "APCA-API-SECRET-KEY": Application.get_env(:alpa, :secret)
