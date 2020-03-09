@@ -1,6 +1,8 @@
 # Alpa
 
-api wrapper for alpaca.markets
+API wrapper for [Alpaca Markets](https://alpaca.markets)
+
+elixir libs: [HTTPoison](https://github.com/edgurgel/httpoison/), [Jason](https://github.com/michalmuskala/jason)  
 
 config
 
@@ -114,4 +116,11 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/alpa](https://hexdocs.pm/alpa).
+
+## License 
+
+MIT
+
+made with Elixir and 💙,  by phiat
+
 
