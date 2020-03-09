@@ -2,9 +2,11 @@
 
 API wrapper for [Alpaca Markets](https://alpaca.markets)
 
-elixir libs: [HTTPoison](https://github.com/edgurgel/httpoison/), [Jason](https://github.com/michalmuskala/jason)  
+elixir libs: [HTTPoison](https://github.com/edgurgel/httpoison/), [Jason](https://github.com/michalmuskala/jason), [ExDoc](https://github.com/elixir-lang/ex_doc)  
 
-config
+very alpha - only basic account info, buy, sell, delete orders.
+
+## config
 
 ```bash
 export ALPACA_API="https://paper-api.alpaca.markets"
@@ -49,7 +51,13 @@ iex(1)> Alpa.account
  }}
 ```
 
-### buy day market order
+### generic buy order
+
+```elixir
+iex(11)> Alpa.order("AMD", 10, "buy", "market", "day")
+```
+
+### buy market day order helper
 
 ```elixir
 iex(5)> Alpa.buy("AMD",10)
@@ -86,6 +94,12 @@ iex(5)> Alpa.buy("AMD",10)
  }}
 ```
 
+### sell market day order
+
+```elixir
+iex(1)> Alpa.sell("AMD", 10)
+```
+
 ### delete a pending order 
 
 ```elixir
@@ -119,8 +133,8 @@ be found at [https://hexdocs.pm/alpa](https://hexdocs.pm/alpa).
 
 ## License 
 
-MIT
+[MIT](https://opensource.org/licenses/MIT) 
 
-made with Elixir and 💙,  by phiat
+made with [Elixir](https://elixir-lang.org/) and 💙,  by [phiat](https://github.com/phiat) 
 
 
