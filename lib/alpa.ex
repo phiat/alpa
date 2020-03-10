@@ -54,6 +54,77 @@ defmodule Alpa do
     delete("/v2/orders")
   end
 
+  @doc """
+  list assets
+  """
+  def assets do
+    get("/v2/assets")
+  end
+
+  @doc """
+  get asset by id or symbol
+  """
+  def asset(id) do
+    get("/v2/assets/#{id}")
+  end
+
+  # @doc """
+  # ISSUE: https://github.com/alpacahq/Alpaca-API/issues/100
+  # list bars
+  # paper money account, IEX data only
+  # (uses 'v1')
+  # https://docs.alpaca.markets/api-documentation/api-v2/market-data/bars/
+  # Retrieves 5 yer
+  # a list of bars for each requested symbol. It is guaranteed all bars are in ascending order by time.
+  # for alpaca api, timestamps are ISO 8601 ('2019-04-15T09:30:00-04:00')
+  # for Alpa, timestamps are Elixir DateTimes
+  # params:   <alpaca api type>/<Elixir type>
+  #   timeframe <string> : default = "1Min"
+  #     One of minute, 1Min, 5Min, 15Min, day or 1D. minute is an alias of 1Min. Similarly, day is of 1D.
+  #   symbols   <string>/<List>  (comma separated)
+  #   limit <int> : default = 100  (1000 max)
+  #   start_time <timestamp>  (cannot be used with :after)
+  #   end_time   <timestamp>  (cannot be used with :until)
+  #   after <timestamp>  (cannot be used with :start)
+  #   until <timestamp>  (cannot be used with :until)
+
+  # note: :end, :after, :until  -> :*_time due to Elixir keyword conflict
+
+  # returns Bars response  (list of symbol with lists of bar objects)
+  # %{ok,
+  #   [
+  #     %{symbol: "AAPL",
+  #       [
+  #       %{t: 1544129220,
+  #         o: 172.26,
+  #         h: 172.3,
+  #         l: 172.16,
+  #         c: 172.18,
+  #         v: 3892,
+  #         }
+  #       ]
+  #     }
+  #   ]
+  # }
+
+  # t <int>
+  #   the beginning time of this bar as a Unix epoch in seconds
+  # o <float>
+  #   open price
+  # h <float>
+  #   high price
+  # l <float>
+  #   low price
+  # c <float>
+  #   close price
+  # v <int>
+  #   volume
+  # """
+  # def bars(%{timeframe: timeframe, symbols: symbols, limit: limit, start_time: start_time, end_time: end_time, after_time: after_time, until_time: until_time}) do
+  #   csv_symbols = Enum.join(symbols, ",")
+  #   get("/v1/bars/#{timeframe}?symbols=#{csv_symbols}&limit=#{limit}&start=#{start_time}&end=#{end_time}&after_time=#{after_time}&until_time=#{until_time}")
+  # end
+
   defp get(path) do
     url = Application.get_env(:alpa, :api) <> path
     HTTPoison.get(url, headers())
