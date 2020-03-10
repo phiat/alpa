@@ -72,8 +72,6 @@ defmodule Alpa do
   end
 
   @doc """
-  ISSUE: https://github.com/alpacahq/Alpaca-API/issues/100
-
   list bars
 
   paper money account, IEX data only

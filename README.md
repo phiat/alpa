@@ -6,7 +6,7 @@ API wrapper for [Alpaca Markets](https://alpaca.markets)
 
 elixir libs: [HTTPoison](https://github.com/edgurgel/httpoison/), [Jason](https://github.com/michalmuskala/jason), [ExDoc](https://github.com/elixir-lang/ex_doc)  
 
-very alpha - only basic account info, buy, sell, delete orders.
+very alpha - only basic account info, buy, sell, delete orders, and market data (bars).
 
 uses [v2 alpaca markets api](https://docs.alpaca.markets/api-documentation/api-v2/)
 
@@ -130,6 +130,15 @@ def deps do
   ]
 end
 ```
+
+## Changelog
+
+0.1.0 basic account info, buy, sell, delete orders
+
+0.1.1 hex docs
+
+0.1.2 added market data (bars), multiple endpoint support (paper-api, data)
+
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
