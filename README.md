@@ -141,7 +141,7 @@ by adding `alpa` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:alpa, "~> 0.1.0"}
+    {:alpa, "~> 0.1.6"}
   ]
 end
 ```
