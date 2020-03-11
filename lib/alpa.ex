@@ -1,6 +1,14 @@
 defmodule Alpa do
   @moduledoc """
   api wrapper for alpaca.markets
+
+  calls return:
+
+  {:ok, result} on success
+
+  {:error, reason} on failure
+
+  https://docs.alpaca.markets/api-documentation/api-v2/
   """
   @endpoint_paper Application.get_env(:alpa, :endpoint_paper) |> to_string()
   @endpoint_data  Application.get_env(:alpa, :endpoint_data)  |> to_string()
@@ -158,6 +166,23 @@ defmodule Alpa do
       {:error, reason} ->
         reason
     end
+  end
+
+  @doc """
+  get portfolio history
+
+  defaults:
+
+  position: "1M"
+
+  timeframe: "1D"
+
+  date_end: Date.utc_today
+
+  extended_history: false
+  """
+  def history(period \\ "1M", timeframe \\ "1D", date_end \\ Date.utc_today, extended_hours \\ false) do
+    get(@endpoint_paper,"/v2/account/portfolio/history?period=#{period}&timeframe=#{timeframe}&date_end=#{date_end}&extended_hour=#{extended_hours}")
   end
 
   @doc """

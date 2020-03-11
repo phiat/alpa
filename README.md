@@ -19,7 +19,7 @@ elixir libs: [HTTPoison](https://github.com/edgurgel/httpoison/), [Jason](https:
 - [ ] clock
 - [ ] account config
 - [ ] account activities
-- [ ] portfolio history
+- [x] portfolio history
 - [ ] streaming
 
 uses [v2 alpaca markets api](https://docs.alpaca.markets/api-documentation/api-v2/)
