@@ -176,6 +176,32 @@ defmodule Alpa do
   end
 
   @doc """
+  get the calendar
+
+  1970 - 2029
+  """
+  def calendar(start_time \\ Date.utc_today, end_time \\ Date.utc_today) do
+    get(@endpoint_paper,"/v2/calendar?start=#{start_time}&end=#{end_time}")
+  end
+
+  @doc """
+  get the market clock
+  """
+  def clock do
+    get(@endpoint_paper,"/v2/clock")
+  end
+
+  @doc """
+  get market open status
+  """
+  def market_open? do
+    case clock() do
+      {:ok, %{"is_open" => is_open}} -> {:ok, is_open}
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
+  @doc """
   list bars
 
   paper money account, IEX data only
@@ -267,6 +293,8 @@ defmodule Alpa do
         {:ok, :success}
       {:ok, %HTTPoison.Response{status_code: 403, body: body}} ->
         {:ok, Jason.decode!(body)}
+        {:ok, %HTTPoison.Response{status_code: 422, body: body}} ->
+          {:ok, Jason.decode!(body)}
       {:error, reason} ->
         {:error, reason}
     end

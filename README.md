@@ -15,8 +15,8 @@ elixir libs: [HTTPoison](https://github.com/edgurgel/httpoison/), [Jason](https:
 - [x] market data (bars)
 - [x] positions
 - [x] watchlists
-- [ ] calendar
-- [ ] clock
+- [x] calendar
+- [x] clock
 - [ ] account config
 - [ ] account activities
 - [x] portfolio history
@@ -157,6 +157,8 @@ end
 0.1.3 added positions, watchlists
 
 0.1.4 added portfolio history, README/docs cleanup
+
+0.1.5 added calendar, clock, handle 422 error
 
 ## Contributing
 
