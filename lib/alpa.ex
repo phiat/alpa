@@ -15,9 +15,9 @@ defmodule Alpa do
   end
 
   @doc """
-  posts an order
+  places an order
   """
-  def order(symbol, qty, side, type, time_in_force, limit_price \\ nil, stop_price \\ nil) do
+  def place_order(symbol, qty, side, type, time_in_force, limit_price \\ nil, stop_price \\ nil) do
     body = Jason.encode!(%{
       symbol: symbol,
       qty: qty,
@@ -33,14 +33,14 @@ defmodule Alpa do
   buy day market order wrapper
   """
   def buy(symbol, qty) do
-    order(symbol, qty, "buy", "market", "day")
+    place_order(symbol, qty, "buy", "market", "day")
   end
 
   @doc """
   sell day market order wrapper
   """
   def sell(symbol, qty) do
-    order(symbol, qty, "sell", "market", "day")
+    place_order(symbol, qty, "sell", "market", "day")
   end
 
   @doc """
@@ -69,6 +69,95 @@ defmodule Alpa do
   """
   def asset(id) do
     get(@endpoint_paper, "/v2/assets/#{id}")
+  end
+
+  @doc """
+  list open positions
+  """
+  def positions do
+    get(@endpoint_paper, "/v2/positions")
+  end
+
+  @doc """
+  get asset by id or symbol
+  """
+  def position(id_or_symbol) do
+    get(@endpoint_paper, "/v2/positions/#{id_or_symbol}")
+  end
+
+  @doc """
+  close all positions
+  """
+  def close_positions do
+    delete(@endpoint_paper, "/v2/positions")
+  end
+
+  @doc """
+  close a position by symbol
+  """
+  def close_position(symbol) do
+    delete(@endpoint_paper, "/v2/positions/$#{symbol}")
+  end
+
+  @doc """
+  list watchlists
+  """
+  def watchlists do
+    get(@endpoint_paper, "/v2/watchlists")
+  end
+
+  @doc """
+  get watchlists by id
+  """
+  def watchlist(id) do
+    get(@endpoint_paper, "/v2/watchlists/#{id}")
+  end
+
+  @doc """
+  delete a watchlist by id
+  """
+  def delete_watchlist(id) do
+    delete(@endpoint_paper, "/v2/watchlists/#{id}")
+  end
+
+  @doc """
+  create a watchlist
+  """
+  def create_watchlist(name, symbols \\ []) do
+    body = Jason.encode!(%{name: name, symbols: symbols})
+    post(@endpoint_paper, "/v2/watchlists", body)
+  end
+
+  @doc """
+  add an asset to a watchlist
+  """
+  def watchlist_add_asset(id, symbol) do
+    body = Jason.encode!(%{symbol: symbol})
+    post(@endpoint_paper, "/v2/watchlists/#{id}", body)
+  end
+
+  @doc """
+  gets id of watchlist by name
+
+  returns:
+
+  {:ok, id} on success
+
+  {:error, reason} on failure
+
+  """
+  def watchlist_id_by_name(name) do
+    case watchlists() do
+      {:ok, watchlists} ->
+        result = watchlists
+          |> Enum.find(fn w -> w["name"] == name end)
+        case result do
+            %{} -> {:ok, Map.fetch!(result, "id")}
+            nil -> {:error, "No watchlist named #{name}"}
+        end
+      {:error, reason} ->
+        reason
+    end
   end
 
   @doc """

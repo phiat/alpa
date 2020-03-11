@@ -1,19 +1,34 @@
 # Alpa
 
-API wrapper for [Alpaca Markets](https://alpaca.markets)   
+Elixir API wrapper module for [Alpaca Markets](https://alpaca.markets)
 
-[hex docs](https://hexdocs.pm/alpa)
+(very alpha, not for production or real money accounts, not an official alpaca.markets package)
+
+see [hex docs](https://hexdocs.pm/alpa) for all functions
 
 elixir libs: [HTTPoison](https://github.com/edgurgel/httpoison/), [Jason](https://github.com/michalmuskala/jason), [ExDoc](https://github.com/elixir-lang/ex_doc)  
 
-very alpha - only basic account info, buy, sell, delete orders, and market data (bars).
+## implemented functions
+
+- [x] account info
+- [x] orders
+- [x] market data (bars)
+- [x] positions
+- [x] watchlists
+- [ ] calendar
+- [ ] clock
+- [ ] account config
+- [ ] account activities
+- [ ] portfolio history
+- [ ] streaming
 
 uses [v2 alpaca markets api](https://docs.alpaca.markets/api-documentation/api-v2/)
 
 ## config
 
 ```bash
-export ALPACA_API="https://paper-api.alpaca.markets"
+export APCA_API_PAPER="https://paper-api.alpaca.markets"
+export APCA_API_DATA="https://data.alpaca.markets"
 export APCA_API_KEY="XXXXXXXXXXXXXXX"
 export APCA_API_SECRET="XXXXXXXXXXXXXX"
 ```
@@ -58,7 +73,7 @@ iex(1)> Alpa.account
 ### generic buy order
 
 ```elixir
-iex(11)> Alpa.order("AMD", 10, "buy", "market", "day")
+iex(11)> Alpa.place_order("AMD", 10, "buy", "market", "day")
 ```
 
 ### buy market day order helper
@@ -107,7 +122,7 @@ iex(1)> Alpa.sell("AMD", 10)
 ### delete a pending order 
 
 ```elixir
-iex(2)> Alpa.delete_order("a5521a11-e664-44d8-b848-f613ae8c4fcc")
+iex(2)> Alpa.delete_place_order("a5521a11-e664-44d8-b848-f613ae8c4fcc")
 {:ok, :success}
 ```
 
@@ -139,15 +154,16 @@ end
 
 0.1.2 added market data (bars), multiple endpoint support (paper-api, data)
 
-
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/alpa](https://hexdocs.pm/alpa).
 
-## License 
+## Contributing
+
+Suggestions and issues welcomed.  Please open an [issue](https://github.com/phiat/alpa/issues)
+
+## License
 
 [MIT](https://opensource.org/licenses/MIT) 
 
 made with [Elixir](https://elixir-lang.org/) and 💙,  by [phiat](https://github.com/phiat) 
-
-
