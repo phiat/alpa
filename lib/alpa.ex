@@ -170,16 +170,6 @@ defmodule Alpa do
 
   @doc """
   get portfolio history
-
-  defaults:
-
-  position: "1M"
-
-  timeframe: "1D"
-
-  date_end: Date.utc_today
-
-  extended_history: false
   """
   def history(period \\ "1M", timeframe \\ "1D", date_end \\ Date.utc_today, extended_hours \\ false) do
     get(@endpoint_paper,"/v2/account/portfolio/history?period=#{period}&timeframe=#{timeframe}&date_end=#{date_end}&extended_hour=#{extended_hours}")
@@ -200,28 +190,20 @@ defmodule Alpa do
 
   for Alpa, timestamps are Elixir DateTimes
 
-  params:   <alpaca api type>/<Elixir type>
+  params:   alpaca api type/Elixir type
+  - timeframe: string, default = "1Min" ["minute", "1Min", "5Min", "15Min", "day" or "1D"]
+  - symbols: string, (comma separated list)
+  - limit : int, default = 100  (1000 max)
+  - start_time : timestamp,  (cannot be used with :after)
+  - end_time   : timestamp,  (cannot be used with :until)
+  - after : timestamp, (cannot be used with :start)
+  - until : timestamp, (cannot be used with :until)
 
-    timeframe <string> : default = "1Min"
+  note: :end, :after, :until  -> :*_time due to Elixir keyword conflict
 
-      One of minute, 1Min, 5Min, 15Min, day or 1D. minute is an alias of 1Min. Similarly, day is of 1D.
+  returns Bars response  (list of symbol with lists of bar objects)
 
-    symbols   <string>/<List>  (comma separated)
-
-    limit <int> : default = 100  (1000 max)
-
-    start_time <timestamp>  (cannot be used with :after)
-
-    end_time   <timestamp>  (cannot be used with :until)
-
-    after <timestamp>  (cannot be used with :start)
-
-    until <timestamp>  (cannot be used with :until)
-
-    note: :end, :after, :until  -> :*_time due to Elixir keyword conflict
-
-    returns Bars response  (list of symbol with lists of bar objects)
-
+  ```
   %{:ok,
     [
       %{symbol: "AAPL",
@@ -237,18 +219,14 @@ defmodule Alpa do
       }
     ]
   }
+  ```
 
-  t <int>  the beginning time of this bar as a Unix epoch in seconds
-
-  o <float> open price
-
-  h <float> high price
-
-  l <float> low price
-
-  c <float> close price
-
-  v <int> volume
+  - t : the beginning time of this bar as a Unix epoch in seconds, int
+  - o : open price, float
+  - h : high price, float
+  - l : low price, float
+  - c : close price, float
+  - v : volume, int
   """
   def bars( %{timeframe: timeframe,
               symbols: symbols,

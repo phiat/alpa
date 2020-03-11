@@ -154,16 +154,16 @@ end
 
 0.1.2 added market data (bars), multiple endpoint support (paper-api, data)
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/alpa](https://hexdocs.pm/alpa).
+0.1.3 added positions, watchlists
+
+0.1.4 added portfolio history, README/docs cleanup
 
 ## Contributing
 
-Suggestions and issues welcomed.  Please open an [issue](https://github.com/phiat/alpa/issues)
+Suggestions welcomed.  Please open an [issue](https://github.com/phiat/alpa/issues)
 
 ## License
 
 [MIT](https://opensource.org/licenses/MIT) 
 
-made with [Elixir](https://elixir-lang.org/) and 💙,  by [phiat](https://github.com/phiat) 
+made with [Elixir](https://elixir-lang.org/) and 💙,  by [phiat](https://github.com/phiat)
