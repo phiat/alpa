@@ -160,6 +160,8 @@ end
 
 0.1.5 added calendar, clock, handle 422 error
 
+0.1.6 added orders (list, update), account config
+
 ## Contributing
 
 Suggestions welcomed.  Please open an [issue](https://github.com/phiat/alpa/issues)
