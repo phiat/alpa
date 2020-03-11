@@ -241,7 +241,6 @@ defmodule Alpa do
 
   defp get(endpoint, path) do
     url = "#{endpoint}#{path}"
-    IO.puts url
     HTTPoison.get(url, headers())
       |> handle_response
   end
