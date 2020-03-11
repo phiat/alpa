@@ -17,7 +17,7 @@ elixir libs: [HTTPoison](https://github.com/edgurgel/httpoison/), [Jason](https:
 - [x] watchlists
 - [x] calendar
 - [x] clock
-- [ ] account config
+- [x] account config
 - [ ] account activities
 - [x] portfolio history
 - [ ] streaming
