@@ -25,7 +25,7 @@ defmodule Alpa do
   @doc """
   places an order
   """
-  def place_order(symbol, qty, side, type, time_in_force, limit_price \\ nil, stop_price \\ nil) do
+  def place_order(symbol, qty, side, type, time_in_force \\ "day", limit_price \\ nil, stop_price \\ nil) do
     body = Jason.encode!(%{
       symbol: symbol,
       qty: qty,
@@ -35,6 +35,18 @@ defmodule Alpa do
       limit_price: limit_price,
       stop_price: stop_price})
     post(@endpoint_paper, "/v2/orders", body)
+  end
+
+  @doc """
+  updates an order
+  """
+  def update_order(order_id, qty, time_in_force \\ "day", limit_price \\ nil, stop_price \\ nil) do
+    body = Jason.encode!(%{
+      qty: qty,
+      time_in_force: time_in_force,
+      limit_price: limit_price,
+      stop_price: stop_price})
+    patch(@endpoint_paper, "/v2/orders/#{order_id}", body)
   end
 
   @doc """
@@ -63,6 +75,27 @@ defmodule Alpa do
   """
   def delete_all_orders do
     delete(@endpoint_paper, "/v2/orders")
+  end
+
+  @doc """
+  list all orders
+  """
+  def orders do
+    get(@endpoint_paper, "/v2/orders")
+  end
+
+  @doc """
+  get an order
+  """
+  def order(order_id) do
+    get(@endpoint_paper, "/v2/orders/#{order_id}")
+  end
+
+  @doc """
+  get an order by client order id
+  """
+  def order_by_client_order_id(client_order_id) do
+    get(@endpoint_paper, "/v2/orders:#{client_order_id}")
   end
 
   @doc """
@@ -169,6 +202,30 @@ defmodule Alpa do
   end
 
   @doc """
+  get account config
+  """
+  def account_config do
+    get(@endpoint_paper, "/v2/account/configurations")
+  end
+
+  @doc """
+  update account config
+
+  - dtbp_check : string, [both, entry, or exit] Controls Day Trading Margin Call (DTMC) checks.
+  - trade_confirm_email : string [all or none]
+  - suspend_trade : bool
+  - no_shorting : bool
+  """
+  def update_account_config(dtbp_check \\ "entry", trade_confirm_email \\ "all" , suspend_trade \\ false, no_shorting \\ false) do
+    body = Jason.encode!(%{
+      dtbp_check: dtbp_check,
+      trade_confirm_email: trade_confirm_email,
+      suspend_trade: suspend_trade,
+      no_shorting: no_shorting})
+    patch(@endpoint_paper, "/v2/account/configurations", body)
+  end
+
+  @doc """
   get portfolio history
   """
   def history(period \\ "1M", timeframe \\ "1D", date_end \\ Date.utc_today, extended_hours \\ false) do
@@ -227,7 +284,7 @@ defmodule Alpa do
 
   note: :end, :after, :until  -> :*_time due to Elixir keyword conflict
 
-  returns Bars response  (list of symbol with lists of bar objects)
+  returns Bars response  (list of symbols with lists of bar objects)
 
   ```
   %{:ok,
@@ -283,6 +340,12 @@ defmodule Alpa do
       |> handle_response
   end
 
+  defp patch(endpoint, path, params) do
+    url = "#{endpoint}#{path}"
+    HTTPoison.patch(url, params, headers())
+      |> handle_response
+  end
+
   defp handle_response(response) do
     case response do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
@@ -291,10 +354,12 @@ defmodule Alpa do
         {:ok, :success}
       {:ok, %HTTPoison.Response{status_code: 207}} ->   # multipart success
         {:ok, :success}
+      {:ok, %HTTPoison.Response{status_code: 400, body: body}} ->
+        {:ok, Jason.decode!(body)}
       {:ok, %HTTPoison.Response{status_code: 403, body: body}} ->
         {:ok, Jason.decode!(body)}
-        {:ok, %HTTPoison.Response{status_code: 422, body: body}} ->
-          {:ok, Jason.decode!(body)}
+      {:ok, %HTTPoison.Response{status_code: 422, body: body}} ->
+        {:ok, Jason.decode!(body)}
       {:error, reason} ->
         {:error, reason}
     end
