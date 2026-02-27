@@ -1,5 +1,7 @@
 # Alpa
 
+⚠️  **DEPRECATED: See new version at [alpa_ex](https://github.com/phiat/alpa_ex)**
+
 Elixir API wrapper module for [Alpaca Markets](https://alpaca.markets)
 
 (very alpha, not for production or real money accounts, not an official alpaca.markets package)
